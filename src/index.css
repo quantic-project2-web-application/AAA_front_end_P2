@@ -1,49 +1,74 @@
-/* Import Tailwind’s styles */
+/* Import Tailwind's styles */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Import Josefin Sans font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&display=swap');
 
-
-/* Custom CSS for the restaurant branding */
-@layer base {
-  body {
-    @apply font-sans bg-gray-50 text-gray-900;
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-bold;
-  }
+html, body, #root {
+  height: 100%;
 }
 
-/* Custom component classes for reusability */
-@layer components {
-  .btn-primary {
-    @apply bg-amber-600 hover:bg-amber-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200;
-  }
-  
-  .section-padding {
-    @apply px-4 sm:px-6 lg:px-8;
-  }
-  
-  .container-max {
-    @apply max-w-7xl mx-auto;
-  }
+/* ========================================
+   GLOBAL TYPOGRAPHY SETTINGS
+======================================== */
+
+/* Apply Josefin Sans to all text elements */
+body {
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.2em;
 }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+p, span, div {
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+}
+
+/* ========================================
+   GLOBAL PAGE BACKGROUND
+======================================== */
+
+/* Reusable page background for all pages */
+.page-background {
+  @apply min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-100;
+}
+
+/* Alternative restaurant-themed backgrounds */
+.page-bg-cream {
+  @apply min-h-screen bg-gradient-to-b from-stone-50 to-amber-50;
+}
+
+.page-bg-elegant {
+  @apply min-h-screen bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-100;
+}
+
+/* ========================================
+   HEADER STYLES
+======================================== */
 
 /* Header styles */
 .header-container {
   display: flex;
   align-items: center;
-  padding: 1rem;
+  padding: 0.5rem;
   background: white;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .logo {
-  height: 40px;          /* Makes logo small */
+  height: 200px;          /* Makes logo small */
   width: auto;           /* Keeps proportions */
-  margin-right: 1rem;    /* Space between logo and text */
+  margin-right: 20rem;    /* Space between logo and text */
 }
 
 .site-title {
@@ -51,19 +76,107 @@
   margin-right: 2rem;
   font-size: 1.5rem;
   color: #1f2937;
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
 }
 
 .nav-links {
   display: flex;
-  gap: 1rem;
+  gap: 5rem;
 }
 
 .nav-links a {
   text-decoration: none;
   color: #374151;
-  font-weight: 500;
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 1.5rem; /* 18px - makes text bigger */
+  padding: 0.5rem 1rem; /* Adds some padding around the text */
+  transition: color 0.2s ease; /* Smooth color transition on hover */
 }
 
 .nav-links a:hover {
   color: #d97706;
 }
+
+/* ========================================
+   FOOTER STYLES
+======================================== */
+
+/* Footer bar - similar to header-container */
+.footer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: auto;
+  flex-shrink: 0;
+  padding: 1rem 1.5rem;
+  background-color: #FEF7E4; /* cream */
+  color: #333333;
+  font-size: 0.875rem;
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+}
+
+/* Footer content container */
+.footer-content {
+  display: flex;
+  align-items: center;
+  gap: 2rem;            /* Space between items */
+  max-width: 1200px;    /* Limit width */
+  margin: 0 auto;       /* Center content */
+  flex-wrap: wrap;      /* Wrap on small screens */
+  justify-content: center;
+}
+
+/* Individual footer items */
+.footer-item {
+  white-space: nowrap;  /* Prevent text wrapping */
+  transition: color 0.2s ease;
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+}
+
+/* Footer separator dots */
+.footer-separator {
+  color: #6b7280;
+  font-weight: bold;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+======================================== */
+@media (max-width: 768px) {
+  .hero-title {
+    @apply text-4xl;
+  }
+  
+  .hero-subtitle {
+    @apply text-xl;
+  }
+  
+  .section-title {
+    @apply text-2xl;
+  }
+  
+  .nav-links a {
+    font-size: 1.25rem; /* Slightly smaller on mobile */
+    padding: 0.25rem 0.5rem;
+  }
+  
+  .logo {
+    height: 100px; /* Smaller logo on mobile */
+    margin-right: 2rem; /* Less margin on mobile */
+  }
+  
+  .nav-links {
+    gap: 2rem; /* Smaller gap on mobile */
+  }
+}
+

@@ -6,19 +6,15 @@ import Footer from '../components/Footer'
 
 const MainLayout = ({ children }) => {
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Header will be sticky at the top */}
+    <div className="flex flex-col min-h-screen"> {/* full height column flex container */}
       <Header />
-      
-      {/* Main content area - this is where your pages will render */}
-      <main className="flex-grow">
+      <main className="flex-grow"> {/* takes remaining space */}
         {children}
       </main>
-      
-      {/* Footer at the bottom */}
-      <Footer />
+      <Footer /> {/* stays at the bottom due to flexbox rules */}
     </div>
   )
 }
 
 export default MainLayout
+

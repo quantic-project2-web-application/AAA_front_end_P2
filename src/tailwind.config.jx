@@ -1,0 +1,15 @@
+module.exports = {
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./public/index.html"
+  ],
+  theme: {
+    extend: {
+      colors: {
+        'cafe-gold': '#D4AF37',
+        'cafe-cream': '#FEFBF6',
+      }
+    },
+  },
+  plugins: [],
+}
