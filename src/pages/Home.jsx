@@ -1,88 +1,46 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import logo from '../assets/logo.webp'
 import homeImage from '../assets/home-cafe-fausse.webp'
 import ImageCard from '../components/ImageCard'
 
 const HomePage = () => {
   return (
-    <div className="home-page">
+    <div className="page-content">
       {/* Hero Section */}
-      <section className="hero-section">
-        <div className="hero-content">
-          <h1 className="hero-title">Café Fausse</h1>
-          <p className="hero-subtitle">Where authentic flavors meet modern elegance</p>
-          <p className="hero-description">
-            Experience the finest Italian cuisine in Washington, DC. Founded in 2010 by Chef Antonio Rossi 
-            and restaurateur Maria Lopez, we blend traditional flavors with modern culinary innovation.
-          </p>
-          <ImageCard
-              src={homeImage}
-              title="Welcome to Café Fausse"
-              description="Experience authentic Italian flavors."
-          />
-          <div className="hero-actions">
-            <Link to="/reservations" className="btn-primary">Make a Reservation</Link>
-            <Link to="/menu" className="btn-secondary">View Our Menu</Link>
-          </div>
-        </div>
+      <section className="hero-section text-center">
+        <h1 className="text-5xl font-bold mb-6 text-amber-800">
+          Welcome to Café Fausse
+        </h1>
+        <p className="text-xl mb-8 text-gray-700 max-w-2xl mx-auto">
+          Experience authentic Italian flavors blended with a modern atmosphere in the heart of Washington, DC.
+        </p>
       </section>
 
-      {/* Restaurant Info */}
-      <section className="info-section">
-        <div className="section-container">
-          <div className="info-grid">
-            <div className="info-card">
-              <h3 className="info-title">Location</h3>
-              <p className="info-text">
-                1234 Culinary Ave, Suite 100<br />
-                Washington, DC 20002
-              </p>
-            </div>
-            
-            <div className="info-card">
-              <h3 className="info-title">Contact</h3>
-              <p className="info-text">
-                Phone: (202) 555-4567<br />
-                Email: info@cafefausse.com
-              </p>
-            </div>
-            
-            <div className="info-card">
-              <h3 className="info-title">Hours</h3>
-              <p className="info-text">
-                Monday - Saturday: 5:00 PM - 11:00 PM<br />
-                Sunday: 5:00 PM - 9:00 PM
-              </p>
-            </div>
-          </div>
-        </div>
+      {/* Navigation Links */}
+      <section className="flex flex-col sm:flex-row justify-between items-center max-w-4xl mx-auto mb-12">
+        <Link to="/menu" className="btn-primary mb-8 sm:mb-0 mr-4">View Menu</Link>
+        <Link to="/reservations" className="btn-secondary">Make Reservation</Link>
       </section>
 
-      
+      {/* Image Section */}
+      <section className="flex justify-center mb-16">
+        <ImageCard
+          src={homeImage}
+          alt="Café Fausse Ambiance"
+          title="Elegant Dining Experience"
+          description="Discover our warm and inviting atmosphere"
+        />
+      </section>
 
-      {/* Newsletter Section */}
-      <section className="newsletter-section">
-        <div className="section-container">
-          <div className="newsletter-content">
-            <h2 className="newsletter-title">Stay Updated</h2>
-            <p className="newsletter-description">
-              Subscribe to receive our latest news, seasonal menus, and exclusive offers
-            </p>
-            <form className="newsletter-form">
-              <input 
-                type="email" 
-                placeholder="Enter your email address" 
-                className="newsletter-input"
-                required 
-              />
-              <button type="submit" className="btn-primary">Subscribe</button>
-            </form>
-          </div>
-        </div>
+      {/* About Section */}
+      <section className="content-section">
+        <h2 className="text-3xl font-bold mb-6 text-amber-800 uppercase text-center">Our Story</h2>
+        <p className="text-gray-600 leading-relaxed max-w-3xl mx-auto text-center">
+          Founded in 2010 by Chef Antonio Rossi and restaurateur Maria Lopez, Café Fausse blends traditional Italian flavors with modern culinary innovation. Our mission is to provide an unforgettable dining experience that reflects both quality and creativity.
+        </p>
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default HomePage
+export default HomePage;

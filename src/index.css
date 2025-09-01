@@ -19,6 +19,9 @@ body {
   font-family: 'Josefin Sans', sans-serif;
   font-weight: 300;
   letter-spacing: 0.2em;
+  background: rgb(245, 245, 220); /* background main color */
+  margin: 10;
+  padding: 0.25;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -35,24 +38,6 @@ p, span, div {
 }
 
 /* ========================================
-   GLOBAL PAGE BACKGROUND
-======================================== */
-
-/* Reusable page background for all pages */
-.page-background {
-  @apply min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-100;
-}
-
-/* Alternative restaurant-themed backgrounds */
-.page-bg-cream {
-  @apply min-h-screen bg-gradient-to-b from-stone-50 to-amber-50;
-}
-
-.page-bg-elegant {
-  @apply min-h-screen bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-100;
-}
-
-/* ========================================
    HEADER STYLES
 ======================================== */
 
@@ -61,12 +46,12 @@ p, span, div {
   display: flex;
   align-items: center;
   padding: 0.5rem;
-  background: white;
+  background: rgb(110, 24, 30);
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .logo {
-  height: 200px;          /* Makes logo small */
+  height: 300px;          /* Makes logo small */
   width: auto;           /* Keeps proportions */
   margin-right: 20rem;    /* Space between logo and text */
 }
@@ -75,7 +60,7 @@ p, span, div {
   margin: 0;
   margin-right: 2rem;
   font-size: 1.5rem;
-  color: #1f2937;
+  color: #ffffff;
   font-family: 'Josefin Sans', sans-serif;
   font-weight: 600;
   letter-spacing: 0.2em;
@@ -89,7 +74,7 @@ p, span, div {
 
 .nav-links a {
   text-decoration: none;
-  color: #374151;
+  color: #f3f4f6;
   font-family: 'Josefin Sans', sans-serif;
   font-weight: 300;
   letter-spacing: 0.2em;
@@ -100,7 +85,7 @@ p, span, div {
 }
 
 .nav-links a:hover {
-  color: #d97706;
+  color: #fbbf24;
 }
 
 /* ========================================
@@ -148,6 +133,37 @@ p, span, div {
   color: #6b7280;
   font-weight: bold;
 }
+
+/* ========================================
+   CONTENT CENTERING UTILITIES
+======================================== */
+
+/* Main content wrapper for centering all page content */
+.page-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* For smaller content sections */
+.content-section {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* Hero sections */
+.hero-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 1rem;
+  text-align: center;
+}
+
 
 /* ========================================
    RESPONSIVE DESIGN
