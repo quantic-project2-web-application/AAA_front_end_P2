@@ -11,13 +11,11 @@ const homeData = {
   buttons: [
     {
       text: "View Menu",
-      to: "/menu",
-      position: "left"
+      to: "/menu"
     },
     {
       text: "Make Reservation", 
-      to: "/reservations",
-      position: "right"
+      to: "/reservations"
     }
   ],
   image: {
@@ -39,31 +37,37 @@ const homeData = {
 };
 
 // Reusable Button Component
-const ActionButton = ({ text, to, position }) => (
+const ActionButton = ({ text, to }) => (
   <Link 
     to={to}
     style={{
       display: 'inline-block',
-      padding: '12px 24px',
+      padding: '16px 32px',
       backgroundColor: 'white',
       color: '#6E181E',
       textDecoration: 'none',
-      borderRadius: 8,
-      fontWeight: 600,
-      fontSize: 16,
-      boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+      borderRadius: 12,
+      fontWeight: 700,
+      fontSize: 18,
+      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)',
       border: '2px solid #6E181E',
       transition: 'all 0.3s ease',
       textAlign: 'center',
-      minWidth: 160
+      minWidth: 200,
+      textTransform: 'uppercase',
+      letterSpacing: '0.5px'
     }}
     onMouseEnter={(e) => {
       e.target.style.backgroundColor = '#6E181E';
       e.target.style.color = 'white';
+      e.target.style.transform = 'translateY(-2px)';
+      e.target.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.2)';
     }}
     onMouseLeave={(e) => {
       e.target.style.backgroundColor = 'white';
       e.target.style.color = '#6E181E';
+      e.target.style.transform = 'translateY(0)';
+      e.target.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.15)';
     }}
   >
     {text}
@@ -346,25 +350,17 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* Action Buttons - Left and Right Layout */}
+      {/* Action Buttons - Centered Side-by-Side Layout */}
       <div style={{ 
         display: 'flex', 
-        justifyContent: 'space-between', 
+        justifyContent: 'center', 
         alignItems: 'center',
+        gap: 24,
         marginBottom: 48,
-        padding: '0 20px'
+        flexWrap: 'wrap'
       }}>
         {homeData.buttons.map((button, index) => (
-          <div 
-            key={index}
-            style={{ 
-              display: 'flex', 
-              justifyContent: button.position === 'left' ? 'flex-start' : 'flex-end',
-              width: '50%'
-            }}
-          >
-            <ActionButton {...button} />
-          </div>
+          <ActionButton key={index} text={button.text} to={button.to} />
         ))}
       </div>
 
