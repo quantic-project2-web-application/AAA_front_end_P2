@@ -4,12 +4,12 @@ import Footer from '../components/Footer'
 
 const MainLayout = ({ children }) => {
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-amber-50 via-yellow-50 to-amber-100"> {/* full height column flex container with background color */}
+    <div className="flex flex-col min-h-screen">
       <Header />
-      <main className="flex-grow"> {/* takes remaining space */}
+      <main className="flex items-center justify-center">
         {children}
       </main>
-      <Footer /> {/* stays at the bottom due to flexbox rules */}
+      <Footer />
     </div>
   )
 }
