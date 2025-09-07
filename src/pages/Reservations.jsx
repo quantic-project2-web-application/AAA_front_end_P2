@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import axios from "axios";
 
 // Reservations page data
 const reservationsData = {
@@ -104,15 +105,33 @@ const ReservationsPage = () => {
   }
 
   // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    
-    if (validateForm()) {
-      // Simulate successful submission
-      setIsSubmitted(true)
-      // Reset form after 3 seconds
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (!validateForm()) return;
+
+  try {
+    const dateTime = `${formData.date}T${formData.time}:00`;
+
+    const payload = {
+      name: formData.name,
+      email: formData.email,
+      guests: parseInt(formData.guests, 10),
+      time_slot: dateTime,
+    };
+
+    const resp = await axios.post(
+      `${import.meta.env.VITE_API_BASE_URL}/api/reservations/`,
+      payload
+    );
+
+    if (resp.status === 201 || resp.status === 200) {
+      console.log("Reservation created!", resp.data);
+      setIsSubmitted(true);
+
+      // reset form after 3 sec
       setTimeout(() => {
-        setIsSubmitted(false)
+        setIsSubmitted(false);
         setFormData({
           date: '',
           time: '',
@@ -120,10 +139,15 @@ const ReservationsPage = () => {
           name: '',
           email: '',
           phone: ''
-        })
-      }, 3000)
+        });
+      }, 3000);
+    } else {
+      console.error("Reservation failed", resp);
     }
+  } catch (err) {
+    console.error("Reservation failed:", err.response?.data || err.message);
   }
+};
 
   // Reusable Form Input Component
   const FormInput = ({ type, id, name, value, onChange, placeholder, error, required, options }) => (
