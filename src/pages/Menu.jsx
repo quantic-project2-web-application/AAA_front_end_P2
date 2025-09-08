@@ -83,18 +83,18 @@ const menu = [
 // UI: Clean, readable, responsive
 const MenuPage = () => (
   <main className="menu-page" style={{ maxWidth: 700, margin: '0 auto', padding: 32 }}>
-    <h1 style={{ textAlign: 'center', marginBottom: 40 }}>Café Fausse Menu</h1>
+    <h1 style={{ textAlign: 'center', marginBottom: 40, fontSize: 18 }}>Café Fausse Menu</h1>
     {menu.map((section) => (
       <section key={section.category} style={{ marginBottom: 32 }}>
-        <h2>{section.category}</h2>
+        <h2 style={{ fontSize: 18 }}>{section.category}</h2>
         <ul style={{ listStyle: 'none', padding: 0 }}>
           {section.items.map((item) => (
             <li key={item.name} style={{ marginBottom: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
               <div>
-                <span style={{ fontWeight: 600 }}>{item.name}</span>
-                <span style={{ marginLeft: 10, color: '#777' }}>{item.description}</span>
+                <span style={{ fontWeight: 600, fontSize: 18 }}>{item.name}</span>
+                <span style={{ marginLeft: 10, color: '#777', fontSize: 18 }}>{item.description}</span>
               </div>
-              <span style={{ fontWeight: 500 }}>${item.price.toFixed(2)}</span>
+              <span style={{ fontWeight: 500, fontSize: 18 }}>${item.price.toFixed(2)}</span>
             </li>
           ))}
         </ul>

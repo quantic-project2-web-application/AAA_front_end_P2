@@ -86,10 +86,10 @@ const ImageCard = ({ src, alt, title, description }) => (
       }} 
     />
     <div style={{ textAlign: 'center', marginTop: 12 }}>
-      <h3 style={{ fontSize: 18, fontWeight: 600, marginBottom: 8, color: '#333' }}>
+      <h3 style={{ fontSize: 20, fontWeight: 600, marginBottom: 8, color: '#333' }}>
         {title}
       </h3>
-      <p style={{ color: '#666', fontSize: 14, lineHeight: 1.5 }}>
+      <p style={{ color: '#666', fontSize: 18, lineHeight: 1.5 }}>
         {description}
       </p>
     </div>
@@ -110,11 +110,11 @@ const AwardCard = ({ title, subtitle, description }) => (
       {title}
     </h3>
     {subtitle && (
-      <p style={{ color: '#d97706', fontWeight: 500, marginBottom: 8, fontSize: 14 }}>
+      <p style={{ color: '#d97706', fontWeight: 500, marginBottom: 8, fontSize: 18 }}>
         {subtitle}
       </p>
     )}
-    <p style={{ color: '#666', fontSize: 14, lineHeight: 1.5 }}>
+    <p style={{ color: '#666', fontSize: 18, lineHeight: 1.5 }}>
       {description}
     </p>
   </div>
@@ -137,12 +137,12 @@ const ReviewCard = ({ rating, quote, author }) => (
       color: '#374151', 
       fontStyle: 'italic', 
       marginBottom: 16, 
-      fontSize: 14,
+      fontSize: 18,
       lineHeight: 1.6
     }}>
       "{quote}"
     </blockquote>
-    <cite style={{ color: '#d97706', fontWeight: 500, fontSize: 14 }}>
+    <cite style={{ color: '#d97706', fontWeight: 500, fontSize: 18 }}>
       — {author}
     </cite>
   </div>

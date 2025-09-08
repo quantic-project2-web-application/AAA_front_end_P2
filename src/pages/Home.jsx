@@ -100,24 +100,20 @@ const ImageCard = ({ src, alt, title, description }) => (
         marginBottom: 16,
       }}
     />
-    <div style={{ textAlign: "center" }}>
-      <h3
-        style={{
-          fontSize: 24,
-          fontWeight: 600,
-          marginBottom: 8,
-          color: "#6E181E",
-        }}
-      >
+    <div style={{ textAlign: 'center' }}>
+      <h3 style={{ 
+        fontSize: 28, 
+        fontWeight: 600, 
+        marginBottom: 8, 
+        color: '#6E181E' 
+      }}>
         {title}
       </h3>
-      <p
-        style={{
-          color: "#666",
-          fontSize: 16,
-          lineHeight: 1.5,
-        }}
-      >
+      <p style={{ 
+        color: '#666', 
+        fontSize: 20, 
+        lineHeight: 1.5 
+      }}>
         {description}
       </p>
     </div>
@@ -152,16 +148,14 @@ const NewsletterForm = ({
     >
       {data.title}
     </h2>
-    <p
-      style={{
-        fontSize: 16,
-        color: "#666",
-        marginBottom: 32,
-        maxWidth: 500,
-        margin: "0 auto 32px auto",
-        lineHeight: 1.5,
-      }}
-    >
+    <p style={{
+      fontSize: 20,
+      color: '#666',
+      marginBottom: 32,
+      maxWidth: 500,
+      margin: '0 auto 32px auto',
+      lineHeight: 1.5
+    }}>
       {data.subtitle}
     </p>
 
@@ -226,7 +220,7 @@ const NewsletterForm = ({
             color: "white",
             border: "none",
             borderRadius: 8,
-            fontSize: 16,
+            fontSize: 18,
             fontWeight: 600,
             cursor: "pointer",
             transition: "background-color 0.3s ease",

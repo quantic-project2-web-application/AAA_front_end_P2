@@ -73,7 +73,7 @@ const AboutSection = ({ title, content, icon, children }) => (
     <div style={{ flex: 1 }}>
       <p style={{ 
         color: '#374151', 
-        fontSize: 16, 
+        fontSize: 20, 
         lineHeight: 1.8, 
         marginBottom: 24 
       }}>
@@ -104,7 +104,7 @@ const FounderCard = ({ name, role, bio, specialties }) => (
     </h3>
     <p style={{ 
       color: '#d97706', 
-      fontSize: 16, 
+      fontSize: 20, 
       fontWeight: 500, 
       marginBottom: 16 
     }}>
@@ -112,7 +112,7 @@ const FounderCard = ({ name, role, bio, specialties }) => (
     </p>
     <p style={{ 
       color: '#374151', 
-      fontSize: 16, 
+      fontSize: 20, 
       lineHeight: 1.6, 
       marginBottom: 20 
     }}>
@@ -120,7 +120,7 @@ const FounderCard = ({ name, role, bio, specialties }) => (
     </p>
     <div>
       <h4 style={{ 
-        fontSize: 14, 
+        fontSize: 18, 
         fontWeight: 600, 
         color: '#6b7280', 
         marginBottom: 8,
@@ -138,7 +138,7 @@ const FounderCard = ({ name, role, bio, specialties }) => (
               color: '#92400e',
               padding: '4px 12px',
               borderRadius: 16,
-              fontSize: 14,
+              fontSize: 18,
               fontWeight: 500
             }}
           >
@@ -215,7 +215,7 @@ const AboutPage = () => (
         </div>
         <p style={{ 
           color: '#6b7280', 
-          fontSize: 16, 
+          fontSize: 18, 
           lineHeight: 1.6 
         }}>
           The passionate team behind Café Fausse's success
@@ -247,7 +247,7 @@ const AboutPage = () => (
       </h3>
       <p style={{ 
         color: '#6b7280', 
-        fontSize: 16, 
+        fontSize: 18, 
         marginBottom: 24,
         maxWidth: 500,
         margin: '0 auto 24px'
