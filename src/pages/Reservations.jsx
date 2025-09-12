@@ -197,7 +197,6 @@ const ReservationsPage = () => {
           value={value}
           onChange={onChange}
           ref={inputRefs.current[name]}
-          onFocus={() => handleFocus(name)}
           style={{
             width: '100%',
             padding: '12px 16px',
@@ -232,7 +231,6 @@ const ReservationsPage = () => {
           value={value}
           onChange={onChange}
           ref={inputRefs.current[name]}
-          onFocus={() => handleFocus(name)}
           placeholder={placeholder}
           style={{
             width: '100%',
@@ -243,6 +241,10 @@ const ReservationsPage = () => {
             backgroundColor: 'white',
             transition: 'border-color 0.3s ease',
             outline: 'none'
+          }}
+          onFocus={(e) => {
+            handleFocus(name);
+            e.target.style.borderColor = '#6E181E';
           }}
           onBlur={(e) => {
             setFocusedInput(null);
