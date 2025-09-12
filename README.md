@@ -13,7 +13,7 @@ Step 1. Install Node & npm in the teminal
   #Check if you have Make sure Node.js and npm are installed. (Check with node -v  and "npm -v.)
 
 Step 2 Run the React App 
- // In the terminal navigate to the folder:  cd cafefausse
+ // In the terminal navigate to the folder:  cd FolderName
 // Install npm modules for the app to work: npm install
  // Run dev command to open the React app and obtain URL:  npm run dev
 
