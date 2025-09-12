@@ -7,25 +7,14 @@
 
 
 
-** 1. Set up Environment in the Terminal**
+** Set up Environment in the Terminal**
 
 Step 1. Install Node & npm in the teminal
-  #Check if you have Make sure Node.js and npm are installed. (Check with node -v and npm -v.)
+  #Check if you have Make sure Node.js and npm are installed. (Check with node -v  and "npm -v.)
 
-Step 2. Create Project Structure  [No need to replicate if you have the folder cafefausse - just notes for myself] 
-npm create vite@latest cafefausse -- -- template react
-npm install  
-// Install additional router axions package
-npm install react-router-dom axios
-// Install Tailwind CSS  https://tailwindcss.com/docs/installation/using-vite
-npm install tailwindcss @tailwindcss/vite
-
-Step 3 Run the React App 
- // Navigate to the folder 
-cd cafefausse
-// Install npm modules  for the app to work (for making copies and uploading them to Github we can delete this folder as is masive)
-npm install
- // run dev to open the React app and obtain URL
- npm run dev
+Step 2 Run the React App 
+ // In the terminal navigate to the folder:  cd cafefausse
+// Install npm modules for the app to work: npm install
+ // Run dev command to open the React app and obtain URL:  npm run dev
 
 
