@@ -8,9 +8,11 @@
 
 # Set up Environment in the Terminal 
 
-Step 1. Install Node & npm in the teminal
+Step 1. Install additional packages
   Check if you have Make sure Node.js and npm are installed. 
   Check with node -v  and "npm -v.)
+  Install additional router axions package: npm install react-router-dom axios
+  Install Tailwind CSS  https://tailwindcss.com/docs/installation/using-vite: npm install tailwindcss @tailwindcss/vite
 
 Step 2 Run the React App 
 - In the terminal navigate to the folder:  cd FolderName
