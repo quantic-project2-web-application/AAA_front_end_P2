@@ -244,10 +244,6 @@ const ReservationsPage = () => {
             transition: 'border-color 0.3s ease',
             outline: 'none'
           }}
-          onFocus={(e) => {
-            handleFocus(name);
-            e.target.style.borderColor = '#6E181E';
-          }}
           onBlur={(e) => {
             setFocusedInput(null);
             e.target.style.borderColor = error ? '#ef4444' : '#d1d5db';
