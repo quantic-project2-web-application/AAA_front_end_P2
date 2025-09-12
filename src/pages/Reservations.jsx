@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react';
 import axios from "axios";
 
 // Reservations page data
@@ -41,6 +41,19 @@ const ReservationsPage = () => {
   // Error state management
   const [errors, setErrors] = useState({})
   const [isSubmitted, setIsSubmitted] = useState(false)
+  
+  // Refs for focus management
+  const inputRefs = useRef({
+    date: React.createRef(),
+    time: React.createRef(),
+    guests: React.createRef(),
+    name: React.createRef(),
+    email: React.createRef(),
+    phone: React.createRef()
+  })
+  
+  // Track currently focused element
+  const [focusedInput, setFocusedInput] = useState(null)
 
   // Handle input changes
   const handleInputChange = (e) => {
@@ -58,6 +71,18 @@ const ReservationsPage = () => {
       }))
     }
   }
+
+  // Set focus on input when it gains focus
+  const handleFocus = (name) => {
+    setFocusedInput(name)
+  }
+
+  // Restore focus after render if needed
+  useEffect(() => {
+    if (focusedInput && inputRefs.current[focusedInput]?.current) {
+      inputRefs.current[focusedInput].current.focus()
+    }
+  })
 
   // Validation functions
   const validateEmail = (email) => {
@@ -106,48 +131,49 @@ const ReservationsPage = () => {
 
   // Handle form submission
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!validateForm()) return;
+    if (!validateForm()) return;
 
-  try {
-    const dateTime = `${formData.date}T${formData.time}:00`;
+    try {
+      const dateTime = `${formData.date}T${formData.time}:00`;
 
-    const payload = {
-      name: formData.name,
-      email: formData.email,
-      guests: parseInt(formData.guests, 10),
-      time_slot: dateTime,
-    };
+      const payload = {
+        name: formData.name,
+        email: formData.email,
+        guests: parseInt(formData.guests, 10),
+        phone: formData.phone,
+        time_slot: dateTime,
+      };
 
-    const resp = await axios.post(
-      `${import.meta.env.VITE_API_BASE_URL}/api/reservations/`,
-      payload
-    );
+      const resp = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/reservations/`,
+        payload
+      );
 
-    if (resp.status === 201 || resp.status === 200) {
-      console.log("Reservation created!", resp.data);
-      setIsSubmitted(true);
+      if (resp.status === 201 || resp.status === 200) {
+        console.log("Reservation created!", resp.data);
+        setIsSubmitted(true);
 
-      // reset form after 3 sec
-      setTimeout(() => {
-        setIsSubmitted(false);
-        setFormData({
-          date: '',
-          time: '',
-          guests: '',
-          name: '',
-          email: '',
-          phone: ''
-        });
-      }, 3000);
-    } else {
-      console.error("Reservation failed", resp);
+        // reset form after 3 sec
+        setTimeout(() => {
+          setIsSubmitted(false);
+          setFormData({
+            date: '',
+            time: '',
+            guests: '',
+            name: '',
+            email: '',
+            phone: ''
+          });
+        }, 3000);
+      } else {
+        console.error("Reservation failed", resp);
+      }
+    } catch (err) {
+      console.error("Reservation failed:", err.response?.data || err.message);
     }
-  } catch (err) {
-    console.error("Reservation failed:", err.response?.data || err.message);
-  }
-};
+  };
 
   // Reusable Form Input Component
   const FormInput = ({ type, id, name, value, onChange, placeholder, error, required, options }) => (
@@ -170,6 +196,8 @@ const ReservationsPage = () => {
           name={name}
           value={value}
           onChange={onChange}
+          ref={inputRefs.current[name]}
+          onFocus={() => handleFocus(name)}
           style={{
             width: '100%',
             padding: '12px 16px',
@@ -180,8 +208,14 @@ const ReservationsPage = () => {
             transition: 'border-color 0.3s ease',
             outline: 'none'
           }}
-          onFocus={(e) => e.target.style.borderColor = '#6E181E'}
-          onBlur={(e) => e.target.style.borderColor = error ? '#ef4444' : '#d1d5db'}
+          onFocus={(e) => {
+            handleFocus(name);
+            e.target.style.borderColor = '#6E181E';
+          }}
+          onBlur={(e) => {
+            setFocusedInput(null);
+            e.target.style.borderColor = error ? '#ef4444' : '#d1d5db';
+          }}
         >
           <option value="">Select {placeholder.toLowerCase()}</option>
           {options?.map((option) => (
@@ -197,6 +231,8 @@ const ReservationsPage = () => {
           name={name}
           value={value}
           onChange={onChange}
+          ref={inputRefs.current[name]}
+          onFocus={() => handleFocus(name)}
           placeholder={placeholder}
           style={{
             width: '100%',
@@ -208,8 +244,14 @@ const ReservationsPage = () => {
             transition: 'border-color 0.3s ease',
             outline: 'none'
           }}
-          onFocus={(e) => e.target.style.borderColor = '#6E181E'}
-          onBlur={(e) => e.target.style.borderColor = error ? '#ef4444' : '#d1d5db'}
+          onFocus={(e) => {
+            handleFocus(name);
+            e.target.style.borderColor = '#6E181E';
+          }}
+          onBlur={(e) => {
+            setFocusedInput(null);
+            e.target.style.borderColor = error ? '#ef4444' : '#d1d5db';
+          }}
         />
       )}
       {error && (
@@ -460,4 +502,4 @@ const ReservationsPage = () => {
   )
 }
 
-export default ReservationsPage
+export default ReservationsPage;
