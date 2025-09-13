@@ -1,6 +1,38 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from "axios";
 
+// Function to generate time options based on selected date
+const generateTimeOptions = (selectedDate) => {
+  if (!selectedDate) {
+    return [];
+  }
+  
+  const date = new Date(selectedDate);
+  const dayOfWeek = date.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+  
+  // Sunday: 5:00 PM - 9:00 PM (4 hours)
+  // Monday-Saturday: 5:00 PM - 11:00 PM (6 hours)
+  const isSunday = dayOfWeek === 0;
+  const endHour = isSunday ? 21 : 23; // 9 PM for Sunday, 11 PM for weekdays
+  const endMinute = isSunday ? 0 : 0; // End at :00 for both cases
+  
+  const timeOptions = [];
+  
+  // Start at 5:00 PM (17:00)
+  for (let hour = 17; hour <= endHour; hour++) {
+    for (let minute = 0; minute < 60; minute += 30) {
+      // Stop at the exact end time
+      if (hour === endHour && minute > endMinute) {
+        break;
+      }
+      const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+      timeOptions.push(timeString);
+    }
+  }
+  
+  return timeOptions;
+};
+
 // Reservations page data
 const reservationsData = {
   hero: {
@@ -19,11 +51,6 @@ const reservationsData = {
       fields: ['name', 'email', 'phone']
     }
   ],
-  timeOptions: Array.from({ length: 28 }, (_, i) => {
-    const hour = Math.floor(i / 2) + 9;
-    const minute = (i % 2) * 30;
-    return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-  }),
   guestOptions: Array.from({ length: 12 }, (_, i) => i + 1)
 };
 
@@ -37,6 +64,9 @@ const ReservationsPage = () => {
     email: '',
     phone: ''
   })
+  
+  // Time options state - dynamically generated based on selected date
+  const [timeOptions, setTimeOptions] = useState([])
 
   // Error state management
   const [errors, setErrors] = useState({})
@@ -54,6 +84,12 @@ const ReservationsPage = () => {
   
   // Track currently focused element
   const [focusedInput, setFocusedInput] = useState(null)
+  
+  // Get today's date in YYYY-MM-DD format for min attribute
+  const getTodayDate = () => {
+    const today = new Date()
+    return today.toISOString().split('T')[0]
+  }
 
   // Handle input changes
   const handleInputChange = (e) => {
@@ -70,6 +106,42 @@ const ReservationsPage = () => {
         [name]: ''
       }))
     }
+    
+    // Update time options when date changes
+    if (name === 'date') {
+      const newTimeOptions = generateTimeOptions(value);
+      setTimeOptions(newTimeOptions);
+      
+      // Clear time selection if it's no longer valid for the new date
+      if (formData.time && !newTimeOptions.includes(formData.time)) {
+        setFormData(prev => ({
+          ...prev,
+          time: ''
+        }));
+      }
+      
+      // Real-time date validation
+      if (value) {
+        const selectedDate = new Date(value);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        if (selectedDate < today) {
+          setErrors(prev => ({
+            ...prev,
+            date: 'Please select today or a future date'
+          }));
+        } else {
+          // Clear date error if valid
+          if (errors.date) {
+            setErrors(prev => ({
+              ...prev,
+              date: ''
+            }));
+          }
+        }
+      }
+    }
   }
 
   // Set focus on input when it gains focus
@@ -83,6 +155,16 @@ const ReservationsPage = () => {
       inputRefs.current[focusedInput].current.focus()
     }
   })
+  
+  // Initialize time options when date is selected
+  useEffect(() => {
+    if (formData.date) {
+      const newTimeOptions = generateTimeOptions(formData.date);
+      setTimeOptions(newTimeOptions);
+    } else {
+      setTimeOptions([]);
+    }
+  }, [formData.date])
 
   // Validation functions
   const validateEmail = (email) => {
@@ -105,7 +187,7 @@ const ReservationsPage = () => {
     if (!formData.guests.trim()) newErrors.guests = 'Number of guests is required'
     if (!formData.name.trim()) newErrors.name = 'Name is required'
     if (!formData.email.trim()) newErrors.email = 'Email is required'
-    if (!formData.phone.trim()) newErrors.phone = 'Phone number is required'
+    // Phone number is optional - no required validation
 
     // Format validation
     if (formData.email && !validateEmail(formData.email)) {
@@ -120,8 +202,15 @@ const ReservationsPage = () => {
       const selectedDate = new Date(formData.date)
       const today = new Date()
       today.setHours(0, 0, 0, 0)
+      
+      // Check if date is in the past
       if (selectedDate < today) {
-        newErrors.date = 'Date cannot be in the past'
+        newErrors.date = 'Please select today or a future date'
+      }
+      
+      // Additional check for invalid date
+      if (isNaN(selectedDate.getTime())) {
+        newErrors.date = 'Please enter a valid date'
       }
     }
 
@@ -176,7 +265,7 @@ const ReservationsPage = () => {
   };
 
   // Reusable Form Input Component
-  const FormInput = ({ type, id, name, value, onChange, placeholder, error, required, options }) => (
+  const FormInput = ({ type, id, name, value, onChange, placeholder, error, required, options, min }) => (
     <div style={{ marginBottom: 24 }}>
       <label 
         htmlFor={id} 
@@ -232,6 +321,7 @@ const ReservationsPage = () => {
           onChange={onChange}
           ref={inputRefs.current[name]}
           placeholder={placeholder}
+          min={min}
           style={{
             width: '100%',
             padding: '12px 16px',
@@ -369,6 +459,7 @@ const ReservationsPage = () => {
                   placeholder="Date"
                   error={errors.date}
                   required
+                  min={getTodayDate()}
                 />
               </div>
               <div style={{ flex: 1 }}>
@@ -378,10 +469,10 @@ const ReservationsPage = () => {
                   name="time"
                   value={formData.time}
                   onChange={handleInputChange}
-                  placeholder="Time"
+                  placeholder={formData.date ? "Time" : "Select date first"}
                   error={errors.time}
                   required
-                  options={reservationsData.timeOptions}
+                  options={timeOptions}
                 />
               </div>
             </div>
@@ -435,9 +526,8 @@ const ReservationsPage = () => {
               name="phone"
               value={formData.phone}
               onChange={handleInputChange}
-              placeholder="Phone Number"
+              placeholder="Phone Number (Optional)"
               error={errors.phone}
-              required
             />
           </FormSection>
 
@@ -488,7 +578,7 @@ const ReservationsPage = () => {
             borderTop: '1px solid #e5e7eb' 
           }}>
             <p style={{ color: '#6b7280', fontSize: 14, marginBottom: 8 }}>
-              * Required fields. We'll contact you within 24 hours to confirm your reservation.
+              * Required fields. Phone number is optional. We'll contact you within 24 hours to confirm your reservation.
             </p>
             <p style={{ color: '#6b7280', fontSize: 14 }}>
               For special requests or large parties (8+ guests), please call us directly.
