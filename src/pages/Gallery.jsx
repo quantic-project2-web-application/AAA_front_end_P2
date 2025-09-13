@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import cafeInterior from '../assets/gallery-cafe-interior.webp'
 import ribeyeSteak from '../assets/gallery-ribeye-steak.webp'
 import specialEvent from '../assets/gallery-special-event.webp'
@@ -65,7 +65,7 @@ const reviewsData = [
 ];
 
 // Reusable Image Card Component
-const ImageCard = ({ src, alt, title, description }) => (
+const ImageCard = ({ src, alt, title, description, onClick }) => (
   <div style={{ 
     display: 'flex', 
     flexDirection: 'column', 
@@ -77,13 +77,24 @@ const ImageCard = ({ src, alt, title, description }) => (
     <img 
       src={src} 
       alt={alt} 
+      onClick={onClick}
       style={{ 
         width: '100%', 
         height: 300, // Reduced height for better side-by-side layout
         objectFit: 'cover', 
         borderRadius: 12,
-        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
-      }} 
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+        cursor: 'pointer',
+        transition: 'transform 0.2s ease, box-shadow 0.2s ease'
+      }}
+      onMouseEnter={(e) => {
+        e.target.style.transform = 'scale(1.02)';
+        e.target.style.boxShadow = '0 8px 12px rgba(0, 0, 0, 0.15)';
+      }}
+      onMouseLeave={(e) => {
+        e.target.style.transform = 'scale(1)';
+        e.target.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+      }}
     />
     <div style={{ textAlign: 'center', marginTop: 12 }}>
       <h3 style={{ fontSize: 20, fontWeight: 600, marginBottom: 8, color: '#333' }}>
@@ -148,8 +159,153 @@ const ReviewCard = ({ rating, quote, author }) => (
   </div>
 );
 
-const GalleryPage = () => (
-  <main className="gallery-page" style={{ maxWidth: 1200, margin: '0 auto', padding: 32 }}>
+// Lightbox Modal Component
+const LightboxModal = ({ isOpen, image, onClose }) => {
+  if (!isOpen || !image) return null;
+
+  return (
+    <div 
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.9)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 1000,
+        padding: 20
+      }}
+      onClick={onClose}
+    >
+      <div 
+        style={{
+          position: 'relative',
+          maxWidth: '90vw',
+          maxHeight: '90vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          style={{
+            position: 'absolute',
+            top: -40,
+            right: 0,
+            background: 'rgba(255, 255, 255, 0.2)',
+            border: 'none',
+            color: 'white',
+            fontSize: 24,
+            width: 40,
+            height: 40,
+            borderRadius: '50%',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'background-color 0.2s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+          }}
+        >
+          ×
+        </button>
+        
+        {/* Enlarged Image */}
+        <img
+          src={image.src}
+          alt={image.alt}
+          style={{
+            maxWidth: '100%',
+            maxHeight: '80vh',
+            objectFit: 'contain',
+            borderRadius: 8,
+            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.5)'
+          }}
+        />
+        
+        {/* Image Info */}
+        <div style={{
+          backgroundColor: 'rgba(255, 255, 255, 0.95)',
+          padding: '20px',
+          borderRadius: '0 0 8px 8px',
+          marginTop: -8,
+          maxWidth: '100%',
+          textAlign: 'center'
+        }}>
+          <h3 style={{
+            fontSize: 24,
+            fontWeight: 600,
+            marginBottom: 8,
+            color: '#333'
+          }}>
+            {image.title}
+          </h3>
+          <p style={{
+            color: '#666',
+            fontSize: 16,
+            lineHeight: 1.5,
+            margin: 0
+          }}>
+            {image.description}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const GalleryPage = () => {
+  // State for lightbox
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+
+  // Handle image click
+  const handleImageClick = (image) => {
+    setSelectedImage(image);
+    setIsLightboxOpen(true);
+  };
+
+  // Handle lightbox close
+  const handleCloseLightbox = () => {
+    setIsLightboxOpen(false);
+    setSelectedImage(null);
+  };
+
+  // Handle keyboard navigation
+  const handleKeyDown = (e) => {
+    if (e.key === 'Escape' && isLightboxOpen) {
+      handleCloseLightbox();
+    }
+  };
+
+  // Add keyboard event listener
+  React.useEffect(() => {
+    if (isLightboxOpen) {
+      document.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isLightboxOpen]);
+
+  return (
+    <main className="gallery-page" style={{ maxWidth: 1200, margin: '0 auto', padding: 32 }}>
     {/* Header Section */}
     <div style={{ textAlign: 'center', marginBottom: 48 }}>
       <h1 style={{ fontSize: 36, fontWeight: 700, marginBottom: 16, color: '#333' }}>
@@ -179,7 +335,10 @@ const GalleryPage = () => (
             minWidth: '280px' // Minimum width for mobile responsiveness
           }}
         >
-          <ImageCard {...item} />
+          <ImageCard 
+            {...item} 
+            onClick={() => handleImageClick(item)}
+          />
         </div>
       ))}
     </div>
@@ -226,7 +385,15 @@ const GalleryPage = () => (
         </div>
       </div>
     </div>
+    
+    {/* Lightbox Modal */}
+    <LightboxModal 
+      isOpen={isLightboxOpen}
+      image={selectedImage}
+      onClose={handleCloseLightbox}
+    />
   </main>
-);
+  );
+};
 
 export default GalleryPage;
